@@ -17,7 +17,7 @@ The playbook loads each file individually and executes a series of tasks:
 The Dockerfiles are generated via an Jinja2 template located in `templates/`.
 
 ## Configuration
-In [build_host.yml](group_vars/build_host.yml) contains configuration variables:
+The [build_host](group_vars/build_host.yml) group variables file contains configuration variables:
 ```yaml
 # Merge RUN commands to decrease layers
 build_merge_runs: true
