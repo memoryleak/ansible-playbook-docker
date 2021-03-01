@@ -1,0 +1,17 @@
+---
+container:
+  namespace: memoryleak
+  image: nginx
+  version: alpine
+  base: nginx:alpine
+  run:
+    - "apk --no-cache update"
+    - "mkdir -p /var/www/html"
+    - "delgroup www-data"
+    - "addgroup -Sg 1000 www-data"
+    - "adduser -G www-data -S -u1000 www-data -h /var/www"
+    - "chown -R www-data:www-data /var/www"
+  workdir: /var/www/html
+  files:
+    - src: nginx.conf
+      dst: /etc/nginx/nginx.conf

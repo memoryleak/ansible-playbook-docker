@@ -1,0 +1,13 @@
+---
+container:
+  namespace: memoryleak
+  image: base
+  version: alpine-3.12
+  base: alpine:3.12
+  run:
+    - "apk --no-cache update"
+    - "mkdir -p /var/www/html"
+    - "addgroup -Sg 1000 www-data"
+    - "adduser -G www-data -S -u1000 www-data -h /var/www"
+    - "chown -R www-data:www-data /var/www"
+  files: []

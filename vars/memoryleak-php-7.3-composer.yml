@@ -1,0 +1,12 @@
+---
+container:
+  namespace: memoryleak
+  image: php
+  version: 7.3-composer
+  base: memoryleak/php:7.3
+  run:
+    - "apk add --no-cache git curl patch unzip php7-phar"
+    - "curl -so /usr/local/bin/composer https://getcomposer.org/download/1.10.20/composer.phar"
+    - "chmod +x /usr/local/bin/composer"
+  files: []
+  cmd: '["composer"]'

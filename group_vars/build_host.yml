@@ -1,0 +1,9 @@
+---
+# Merge RUN commands to decrease layers
+build_merge_runs: true
+# Build directory location
+build_build_dir: "{{ playbook_dir }}/build"
+# Do not execute the docker build command
+build_execute: true
+# Do not remove existing docker images
+build_remove: true

@@ -1,0 +1,49 @@
+# {{ ansible_managed }}
+FROM {{ container.base }}
+{% if container.envs is defined and container.envs != None and container.envs|length > 0 %}
+# Set environment variables
+
+{% for env in container.envs %}
+ENV {{ env }}
+{% endfor %}
+{% endif %}
+
+{% if build_merge_runs %}
+
+# Create single run command to minimize layers
+RUN {{ container.run | join(' && \\\n') }}
+{% else %}
+{% for item in container.run %}
+
+# Run each command on its own.
+RUN {{ item }}
+{% endfor %}
+{% endif %}
+{% for file in container.files %}
+
+# Copy files
+COPY {{ file.src }} {{ file.dst }}
+{% endfor %}
+{% if container.workdir is defined and container.workdir != None and container.workdir|length > 0 %}
+
+# Set working directory
+WORKDIR {{ container.workdir }}
+{% endif %}
+{% if container.entrypoint is defined and container.entrypoint != None and container.entrypoint|length > 0 %}
+
+# Set entry point
+ENTRYPOINT {{ container.entrypoint }}
+{% endif %}
+{% if container.cmd is defined and container.cmd != None and container.cmd|length > 0 %}
+
+# Set command
+CMD {{ container.cmd }}
+{% endif %}
+
+{% if container.ports is defined and container.ports != None and container.ports|length > 0 %}
+# Expose ports
+
+{% for port in container.ports %}
+EXPOSE {{ port }}
+{% endfor %}
+{% endif %}
