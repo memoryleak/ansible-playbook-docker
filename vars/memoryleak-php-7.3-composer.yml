@@ -5,7 +5,7 @@ container:
   version: 7.3-composer
   base: memoryleak/php:7.3
   run:
-    - "apk add --no-cache git curl patch unzip php7-phar"
+    - "apk add --no-cache git curl patch unzip"
     - "curl -so /usr/local/bin/composer https://getcomposer.org/composer-1.phar"
     - "chmod +x /usr/local/bin/composer"
   files: []

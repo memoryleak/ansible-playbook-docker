@@ -9,14 +9,14 @@ container:
     - "addgroup -Sg 1000 www-data"
     - "adduser -G www-data -S -u1000 www-data -h /var/www"
     - "chown -R www-data:www-data /var/www"
-    - "apk add --no-cache php7 php7-xmlwriter php7-intl php7-ctype php7-tokenizer php7-bcmath php7-bz2 php7-curl php7-dom php7-enchant php7-exif php7-fileinfo php7-fpm php7-ftp php7-gd php7-gettext php7-gmp php7-iconv php7-json php7-mbstring php7-mysqli php7-mysqlnd php7-opcache php7-openssl php7-pcntl php7-pdo php7-pdo_mysql php7-pecl-mcrypt php7-pecl-redis php7-pecl-uploadprogress php7-recode php7-simplexml php7-soap php7-sockets php7-sodium php7-xml php7-xsl php7-zip"
+    - "apk add --no-cache php7 php7-xmlwriter php7-phar php7-intl php7-ctype php7-tokenizer php7-bcmath php7-bz2 php7-curl php7-dom php7-enchant php7-exif php7-fileinfo php7-fpm php7-ftp php7-gd php7-gettext php7-gmp php7-iconv php7-json php7-mbstring php7-mysqli php7-mysqlnd php7-opcache php7-openssl php7-pcntl php7-pdo php7-pdo_mysql php7-pecl-mcrypt php7-pecl-redis php7-pecl-uploadprogress php7-recode php7-simplexml php7-soap php7-sockets php7-sodium php7-xml php7-xsl php7-zip"
   files:
     - src: php.ini
       dst: /etc/php7/php.ini
 
     - src: php-fpm.conf
       dst: /etc/php7/php-fpm.conf
-    
+
     - src: php-www.conf
       dst: /etc/php7/php-fpm.d/www.conf
 
