@@ -1,8 +1,8 @@
 # Description
-This is an Ansible based build system for docker images.
+An Ansible playbook to build Docker images.
 
 # Requirements
-* Running local docker server
+* Running local Dockerfiles server
 * User must be in group `docker`
 
 ## How it works
@@ -17,14 +17,15 @@ The playbook loads each file individually and executes a series of tasks:
 The Dockerfiles are generated via an Jinja2 template located in `templates/`.
 
 ## Configuration
-```
+In [build_host.yml](group_vars/build_host.yml) contains configuration variables:
+```yaml
 # Merge RUN commands to decrease layers
 build_merge_runs: true
 # Build directory location
 build_build_dir: "{{ playbook_dir }}/build"
-# Do not execute the docker build command
+# Do not execute the Docker build command
 build_execute: true
-# Do not remove existing docker images
+# Do not remove existing Docker images
 build_remove: true
 ```
 ## Execution
