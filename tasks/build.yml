@@ -64,3 +64,13 @@
   tags:
     - docker_image
   when: build_execute
+
+- name: Push images
+  docker_image:
+    name: "{{ container.namespace }}/{{ container.image }}:{{ container.version }}"
+    push: true
+    #repository: docker.io
+    source: local
+  tags:
+    - docker_image
+  when: build_push

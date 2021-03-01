@@ -6,7 +6,7 @@ container:
   base: memoryleak/php:7.4
   run:
     - "apk add --no-cache git curl patch unzip php7-phar"
-    - "curl -so /usr/local/bin/composer https://getcomposer.org/download/1.10.20/composer.phar"
+    - "curl -so /usr/local/bin/composer https://getcomposer.org/composer-1.phar"
     - "chmod +x /usr/local/bin/composer"
   files: []
   cmd: '["composer"]'
