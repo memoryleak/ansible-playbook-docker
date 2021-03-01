@@ -2,7 +2,7 @@
 An Ansible playbook to build Docker images.
 
 # Requirements
-* Running local Dockerfiles server
+* Running local Docker server
 * User must be in group `docker`
 
 ## How it works
