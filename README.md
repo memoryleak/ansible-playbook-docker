@@ -17,20 +17,25 @@ The playbook loads each file individually and executes a series of tasks:
 The Dockerfiles are generated via an Jinja2 template located in `templates/`.
 
 ## Configuration
-The [build_host](group_vars/build_host.yml) group variables file contains configuration variables:
+The [playbook](playbook.yml) contains the configuration variables
+
 ```yaml
+ansible_connection: local
+ansible_interpreter_python: /usr/bin/python3
 # Merge RUN commands to decrease layers
 build_merge_runs: true
 # Build directory location
 build_build_dir: "{{ playbook_dir }}/build"
-# Do not execute the Docker build command
+# Do not execute the docker build command
 build_execute: true
-# Do not remove existing Docker images
+# Do not remove existing docker images
 build_remove: true
+# Push the images after build
+build_push: true
 ```
 ## Execution
 ```
-ansible-playbook -i inventory.yml playbook.yml
+ansible-playbook playbook.yml
 ```
 ### Author
 Haydar Ciftci <haydar.ciftci@gmail.com>
