@@ -1,0 +1,6 @@
+build/*
+*.sublime-*
+*.retry
+roles
+.roles
+output

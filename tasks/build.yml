@@ -1,0 +1,76 @@
+---
+- name: Load container configuration
+  include_vars: "{{ container_config }}"
+  tags:
+    - include_vars
+
+- name: Print container tag being currently built
+  debug:
+    msg: "{{ container.namespace }}/{{ container.image }}:{{ container.version }}"
+  tags:
+    - debug
+
+- name: Create build directory
+  file:
+    path: "{{ build_build_dir }}/{{ container.namespace }}-{{ container.image }}-{{ container.version }}"
+    state: directory
+    mode: 0755
+  tags:
+    - file
+
+- name: Check if the files directory exists
+  stat:
+    path: "files/{{ container.namespace }}/{{ container.image }}/{{ container.version }}"
+  tags:
+    - stat
+  register: files_directory
+
+- name: Copy build files
+  copy:
+    dest: "{{ build_build_dir }}/{{ container.namespace }}-{{ container.image }}-{{ container.version }}/{{ item | basename }}"
+    src: "{{ item }}"
+    mode: 0755
+  tags:
+    - copy
+  with_fileglob:
+    - "files/{{ container.namespace }}/{{ container.image }}/{{ container.version }}/*"
+  when: files_directory.stat.exists
+
+- name: Create Dockerfile from template
+  template:
+    dest: "{{ build_build_dir }}/{{ container.namespace }}-{{ container.image }}-{{ container.version }}/Dockerfile"
+    src: "Dockerfile.j2"
+    trim_blocks: true
+    mode: 0755
+  tags:
+    - template
+
+- name: Remove existing images
+  docker_image:
+    state: absent
+    name: "{{ container.namespace }}/{{ container.image }}:{{ container.version }}"
+  tags:
+    - docker_image
+  when: build_remove
+
+- name: Build the image
+  docker_image:
+    source: build
+    build:
+      nocache: true
+      pull: false
+      path: "{{ build_build_dir }}/{{ container.namespace }}-{{ container.image }}-{{ container.version }}"
+    name: "{{ container.namespace }}/{{ container.image }}:{{ container.version }}"
+  tags:
+    - docker_image
+  when: build_execute
+
+- name: Push images
+  docker_image:
+    name: "{{ container.namespace }}/{{ container.image }}:{{ container.version }}"
+    push: true
+    #repository: docker.io
+    source: local
+  tags:
+    - docker_image
+  when: build_push

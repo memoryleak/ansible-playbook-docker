@@ -1,0 +1,15 @@
+---
+container:
+  namespace: memoryleak
+  image: php
+  version: 7.4-debug
+  base: memoryleak/php:7.4
+  run:
+    - "apk add --no-cache php7-pear php7-dev gcc musl-dev make"
+    - "pear config-set ext_dir /usr/lib/php7/modules"
+    - "pear channel-update pecl.php.net"
+    - "pecl install xdebug"
+    - "apk del php7-pear php7-dev gcc musl-dev make"
+  files:
+    - src: xdebug.ini
+      dst: /etc/php7/conf.d/00_xdebug.ini

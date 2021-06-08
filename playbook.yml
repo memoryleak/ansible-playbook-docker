@@ -1,0 +1,35 @@
+---
+- hosts:
+    localhost
+  vars:
+    ansible_connection: local
+    ansible_interpreter_python: /usr/bin/python3
+    # Merge RUN commands to decrease layers
+    build_merge_runs: true
+    # Build directory location
+    build_build_dir: "{{ playbook_dir }}/build"
+    # Do not execute the docker build command
+    build_execute: true
+    # Do not remove existing docker images
+    build_remove: true
+    # Push the images after build
+    build_push: true
+
+  tasks:
+    - name: Include container build task for each container.
+      include_tasks: "tasks/build.yml"
+      with_items:
+        - "vars/memoryleak-elasticsearch-7.6.2.yml"
+        - "vars/memoryleak-elasticsearch-7.9.3.yml"
+        - "vars/memoryleak-base-alpine-3.12.yml"
+        - "vars/memoryleak-nginx-alpine.yml"
+        - "vars/memoryleak-php-7.3.yml"
+        - "vars/memoryleak-php-7.3-xdebug.yml"
+        - "vars/memoryleak-php-7.3-composer.yml"
+        - "vars/memoryleak-php-7.4.yml"
+        - "vars/memoryleak-php-7.4-xdebug.yml"
+        - "vars/memoryleak-php-7.4-composer.yml"
+        - "vars/memoryleak-php-7.4-composer2.yml"
+
+      loop_control:
+        loop_var: "container_config"

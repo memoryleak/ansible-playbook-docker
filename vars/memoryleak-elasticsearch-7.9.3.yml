@@ -1,0 +1,25 @@
+---
+container:
+  namespace: memoryleak
+  image: elasticsearch
+  version: 7.9.3
+  base: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
+  run:
+    - "bin/elasticsearch-plugin install analysis-icu"
+    - "bin/elasticsearch-plugin install analysis-phonetic"
+
+  envs:
+    - 'http.host 0.0.0.0'
+    - 'transport.host 127.0.0.1'
+    - 'bootstrap.memory_lock "true"'
+    - 'ES_JAVA_OPTS -Xms512m -Xmx2048m'
+    - 'discovery.type single-node'
+    - 'cluster.name es-cluster'
+    - 'discovery.zen.minimum_master_nodes 1'
+    - 'xpack.security.enabled "false"'
+    - 'xpack.monitoring.enabled "false"'
+    - 'xpack.ml.enabled "false"'
+    - 'xpack.graph.enabled "false"'
+    - 'xpack.watcher.enabled "false"'
+
+  files: []
